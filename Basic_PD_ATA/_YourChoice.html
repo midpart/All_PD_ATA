@@ -1,0 +1,9 @@
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">Please indicate your choice...&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+     <td class="text-center">
+        <p style="margin-bottom: 10px!important;"><button type="button" class="btn btn-outline-success your_choice" disabled id="your_choice_A_{{ i }}" value="A">A</button></p>
+        <p><button type="button" class="btn btn-outline-success your_choice" disabled id="your_choice_B_{{ i }}" value="B">B</button></p>
+    </td>
+    {% endfor %}
+</tr>

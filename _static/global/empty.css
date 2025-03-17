@@ -1,0 +1,58 @@
+.page-header{
+    margin-top: 5px!important;
+    padding-top: 0px!important;
+    margin-bottom: 5px !important;
+}
+
+.choiceTable {
+    font-size: smaller;
+}
+.choiceTable td, .result td, .result th {
+    padding: 5px 2px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.choiceTable td p{
+    padding: 0px !important;
+    margin: 2px !important;
+}
+
+.choiceTable .form-control{
+    padding: 2px !important;
+    display: inline !important;
+    font-size: small !important;
+}
+
+.choiceTable .btn{
+    padding: 5px 10px !important;
+}
+
+.text-box-width {
+    max-width: 100% !important;
+}
+
+.result th, .result td{
+    text-align: center;
+}
+
+.circle {
+    background: rgb(182, 173, 210);
+    border-radius: 200px;
+    height: 20px;
+    width: 20px;
+    display: table;
+    margin: 0px auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.CurrentRound{
+    background: rgb(5, 5, 227);
+    color: white;
+    font-weight: bold;
+}
+
+.PastRound{
+    background: rgb(151, 184, 151);
+}

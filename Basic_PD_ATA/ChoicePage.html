@@ -1,0 +1,150 @@
+{{ block title }}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
+    Choice Page
+{{ endblock }}
+{{ block content }}
+
+    {% include 'Basic_PD_ATA/_ChoiceTable.html' %}
+    <input type="hidden" id="your_choice" value="" name="your_choice" />
+    <input type="hidden" id="your_think_other_choice" value="" name="your_think_other_choice" />
+    <input type="hidden" id="choice_AC_me" value="" name="choice_AC_me" />
+    <input type="hidden" id="choice_AC_other" value="" name="choice_AC_other" />
+    <input type="hidden" id="choice_AD_me" value="" name="choice_AD_me" />
+    <input type="hidden" id="choice_AD_other" value="" name="choice_AD_other" />
+    <input type="hidden" id="choice_BC_me" value="" name="choice_BC_me" />
+    <input type="hidden" id="choice_BC_other" value="" name="choice_BC_other" />
+    <input type="hidden" id="choice_BD_me" value="" name="choice_BD_me" />
+    <input type="hidden" id="choice_BD_other" value="" name="choice_BD_other" />
+    <!-- <button type="submit">Next</button> -->
+
+{{ endblock }}
+
+{% block scripts %}
+<script>
+    $(document).ready(() => {
+        let current_round = js_vars.current_round;
+        let current_round_index = current_round - 1;
+        let default_value = js_vars.default_value;
+        let previoud_rounds_data = js_vars.previoud_rounds_data;
+        set_previous_round_data(current_round, previoud_rounds_data);
+
+        enable_fields(current_round_index, default_value);
+        $(".your_choice").click(function() {
+            let value = $(this).val();
+           $("#your_choice_A_" + current_round_index).removeAttr("disabled").removeClass("btn-success").addClass("btn-outline-success");
+           $("#your_choice_B_" + current_round_index).removeAttr("disabled").removeClass("btn-success").addClass("btn-outline-success");
+            $(this).removeAttr("disabled").removeClass("btn-outline-success").addClass("btn-success");
+            $("#your_choice").val(value);
+            check_all_input();
+        });
+        $(".your_think_other_choice").on("input blur", function() {
+            let value = $(this).val().toUpperCase();
+            $(this).val(value);
+            if (!/^[CD]$/.test(value)) {
+                $(this).val("").addClass('error');
+            } else {
+                $("#your_think_other_choice").val(value);
+                $(this).removeClass('error');
+                check_all_input();
+            }
+        });
+        $(".extra").on("input blur", function() {
+            let value = $(this).val();
+            let id = $(this).attr('data-id');
+            if (check_input($(this).attr('id')) == true) {
+                $(this).val(value);
+                $('#'+id).val(value);
+                check_all_input();
+            } else {
+                $(this).val("");
+            }
+        });
+    });
+
+    function enable_fields(round_number, defaut_value) {
+        $("#your_choice_A_" + round_number).removeAttr("disabled");
+        $("#your_choice_B_" + round_number).removeAttr("disabled");
+        $("#your_think_other_choice_" + round_number).removeAttr("disabled");
+
+        $("#choice_AC_me_" + round_number).removeAttr("disabled").val(defaut_value);
+        $("#choice_AC_other_" + round_number).removeAttr("disabled").val(defaut_value);
+        $("#choice_AD_me_" + round_number).removeAttr("disabled").val(defaut_value);
+        $("#choice_AD_other_" + round_number).removeAttr("disabled").val(defaut_value);
+        $("#choice_BC_me_" + round_number).removeAttr("disabled").val(defaut_value);
+        $("#choice_BC_other_" + round_number).removeAttr("disabled").val(defaut_value);
+        $("#choice_BD_me_" + round_number).removeAttr("disabled").val(defaut_value);
+        $("#choice_BD_other_" + round_number).removeAttr("disabled").val(defaut_value);
+        if (defaut_value != "") {
+            $("#choice_AC_me").val(defaut_value);
+            $("#choice_AC_other").val(defaut_value);
+            $("#choice_AD_me").val(defaut_value);
+            $("#choice_AD_other").val(defaut_value);
+            $("#choice_BC_me").val(defaut_value);
+            $("#choice_BC_other").val(defaut_value);
+            $("#choice_BD_me").val(defaut_value);
+            $("#choice_BD_other").val(defaut_value);
+        }
+    }
+    function check_input(id){
+        let success = false;
+        let value = $("#" + id).val();
+        if (value < 0 || value > 100 || value === "" || value.length > 3) {
+            $("#" + id).addClass("error");
+        } else {
+            $("#" + id).removeClass("error");
+            success = true;
+        }
+        return success;
+    }
+
+    function check_all_input() {
+        let choice = $("#your_choice").val();
+        let otherChoice = $("#your_think_other_choice").val();
+        let isSuccess = true;
+        if ((choice == "A" || choice == "B") == false) { isSuccess = false; }
+        if ((otherChoice == "C" || otherChoice == "D") == false) { isSuccess = false; }
+        if (check_input("choice_AC_me") == false) { isSuccess = false; }
+        if (check_input("choice_AC_other") == false) { isSuccess = false; }
+        if (check_input("choice_AD_me") == false) { isSuccess = false; }
+        if (check_input("choice_AD_other") == false){ isSuccess = false; }
+        if (check_input("choice_BC_me") == false) { isSuccess = false; }
+        if (check_input("choice_BC_other") == false) { isSuccess = false; }
+        if (check_input("choice_BD_me") == false) { isSuccess = false; }
+        if (check_input("choice_BD_other") == false) { isSuccess = false; }
+        if (isSuccess == true) {
+            $("#submit").removeAttr("disabled");
+        } else {
+            $("#submit").attr("disabled", true);
+        }
+    }
+
+    function set_previous_round_data(current_round, previous_round_data) {
+        if (current_round > 1 && previous_round_data != null && previous_round_data.length > 0) {
+            $.each(previous_round_data, function(index, value) {
+                let round = value.round_number - 1;
+                $("#me_payoff_"+round).val(value.me_payoff);
+                $("#other_payoff_"+round).val(value.other_payoff);
+                $("#me_total_payoff_"+round).val(value.me_total_payoff);
+                $("#other_total_payoff_"+round).val(value.other_total_payoff);
+
+                if (value.choice1 == 'A') {
+                    $("#your_choice_A_" + round).removeClass("btn-outline-success").addClass("btn-success");
+                } else if (value.choice1 == 'B') {
+                    $("#your_choice_B_" + round).removeClass("btn-outline-success").addClass("btn-success");
+                }
+                
+                $("#your_think_other_choice_" + round).val(value.choice2);
+                $("#choice_AC_me_" + round).val(value.choice_AC_me);
+                $("#choice_AC_other_" + round).val(value.choice_AC_other);
+                $("#choice_AD_me_" + round).val(value.choice_AD_me);
+                $("#choice_AD_other_" + round).val(value.choice_AD_other);
+                $("#choice_BC_me_" + round).val(value.choice_BC_me);
+                $("#choice_BC_other_" + round).val(value.choice_BC_other);
+                $("#choice_BD_me_" + round).val(value.choice_BD_me);
+                $("#choice_BD_other_" + round).val(value.choice_BD_other);
+            });
+        }
+    }
+</script>
+{% endblock %}

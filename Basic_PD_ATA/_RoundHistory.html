@@ -1,0 +1,36 @@
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">Your payoff in this round&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control" id="me_payoff_{{ i }}" type="text" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+{% if show_other_participant_info == True %}
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">Other person's payoff in this round&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control" id="other_payoff_{{ i }}" type="text" value="" disabled  >
+        </td>
+    {% endfor %}
+</tr>
+{% endif %}
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">Your total income&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control" id="me_total_payoff_{{ i }}" type="text" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+{% if show_other_participant_info == True %}
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">Other person's total income&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control" id="other_total_payoff_{{ i }}" type="text" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+{% endif %}
