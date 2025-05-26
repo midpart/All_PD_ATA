@@ -1,0 +1,15 @@
+{% block app_styles %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
+{% endblock %}
+
+{% block content %}
+<!--    <p>Redirecting you to the correct app... please wait.</p>-->
+{% formfield player.prolific_id %}
+{% next_button %}
+    <script>
+        // setTimeout(function () {
+        //     document.querySelector('form').submit();
+        // }, 1);
+    </script>
+{% endblock %}

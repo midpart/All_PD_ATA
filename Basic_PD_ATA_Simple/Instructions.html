@@ -1,3 +1,4 @@
+{% extends "global/Page.html" %}
 {% block app_styles %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
@@ -9,7 +10,7 @@ ATA Instructions for two individual players – Prisoner Dilemma
 {{ block content }}
 <h4>Task Instructions</h4>
 <p>In this experiment you and another participant are facing the screen below. </p>
-{% include 'Basic_PD_ATA/_ChoiceTable.html' %}
+{% include 'Basic_PD_ATA_Simple/_ChoiceTable.html' %}
 
 <div>Your task is to make ten choices over ten rounds. Your choice can either be A or B; the other participant’s choice
     can either be C or D. What you choose is entirely up to you, but you have to make a choice, and the other
@@ -56,6 +57,7 @@ ATA Instructions for two individual players – Prisoner Dilemma
     <p>It is important to note that your payoffs are NOT affected by your guesses regarding the other participant’s actions or payoffs. So, whether your guesses about the other participant are correct or incorrect has no effect on your payoffs. Also, the other participant’s guesses do not affect your payoffs.</p>
     <p>All rounds and sessions need to be completed consecutively and there is no possibility to go back. Once you have completed a session ({{ C.NUM_ROUNDS }} rounds) a window will come up and you can return to Prolific.</p>
 </div>
+
 <p>Your Prolific ID: <strong>{{ prolific_id }}</strong></p>
 
 <input type="hidden" name="prolific_id" value="{{ prolific_id }}">
@@ -70,9 +72,15 @@ ATA Instructions for two individual players – Prisoner Dilemma
 <div class="mt-3">
     <button id="nextBtn" class="btn btn-primary" type="submit" disabled>Next</button>
 </div>
+
 <script>
-        document.getElementById("agreeCheckbox").addEventListener("change", function() {
+    $(document).ready(() => {
+        let timeout = js_vars.timeout;
+        document.getElementById("agreeCheckbox").addEventListener("change", function () {
             document.getElementById("nextBtn").disabled = !this.checked;
         });
-    </script>
+        
+    })
+
+</script>
 {{ endblock }}

@@ -6,11 +6,8 @@
         "B_A": [100, 0],
         "B_B": [25, 25]
     },
-    "your_choice_order": 2,
-    "other_choice_order": 3,
-    "expectation_of_rounds": 1,
     "first_row_width_percentage": 46,
     "show_other_participant_info" : true,
     "instruction_page_time_out_in_sec": 300,
-    "game_page_time_out_in_sec": 180
+    "game_page_time_out_in_sec": 60
 }

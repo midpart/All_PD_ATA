@@ -1,0 +1,21 @@
+{% block app_styles %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
+{% endblock %}
+
+{% block content %}
+<p class="text-danger text-center"><i>Unable to form a group</i></p>
+<p>Prolific Id: {{ player.prolific_id }}</p>
+<p>Start Time: {{ player.start_time }}</p>
+<p>End Time: {{ player.end_time }}</p>
+<p>Duration: {{ player.duration }}</p>
+<p>Name: {{ player.name }}</p>
+<p>Timeout: {{ player.timed_out }}</p>
+<!--{% next_button %}-->
+<p>Click here to return, <a href="{{ prolific_url }}">click here</a>.</p>
+    <script>
+        // setTimeout(function () {
+        //     document.querySelector('form').submit();
+        // }, 1);
+    </script>
+{% endblock %}

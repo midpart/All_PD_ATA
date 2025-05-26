@@ -26,8 +26,8 @@
         let current_round = js_vars.current_round;
         let current_round_index = current_round - 1;
         let default_value = js_vars.default_value;
-        let previoud_rounds_data = js_vars.previoud_rounds_data;
-        set_previous_round_data(current_round, previoud_rounds_data);
+        let previous_rounds_data = js_vars.previous_rounds_data;
+        set_previous_round_data(current_round, previous_rounds_data);
 
         enable_fields(current_round_index, default_value);
         $(".your_choice").click(function() {
@@ -113,9 +113,9 @@
         if (check_input("choice_BD_me") == false) { isSuccess = false; }
         if (check_input("choice_BD_other") == false) { isSuccess = false; }
         if (isSuccess == true) {
-            $("#submit").removeAttr("disabled");
+            $("#choice_submit").removeAttr("disabled");
         } else {
-            $("#submit").attr("disabled", true);
+            $("#choice_submit").attr("disabled", true);
         }
     }
 
