@@ -10,7 +10,7 @@
     "other_choice_order": 3,
     "expectation_of_rounds": 1,
     "first_row_width_percentage": 46,
-    "show_other_participant_info" : true,
+    "show_other_participant_info" : false,
     "instruction_page_time_out_in_sec": 300,
     "game_page_time_out_in_sec": 180
 }

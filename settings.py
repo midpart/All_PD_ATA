@@ -12,7 +12,7 @@ SESSION_CONFIGS = [
         app_sequence=['Basic_PD_ATA_Router',  'Basic_PD_ATA', 'Basic_PD_ATA_Simple'],
         num_demo_participants=2,
         room = 'Basic_PD_ATA_Router',
-        prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=123ABC45',
+        prolific_completion_url = 'https://app.prolific.com/profiles/',
     ),
     #  dict(
     #     name='Basic_PD_ATA',

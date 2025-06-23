@@ -82,8 +82,8 @@ def choice_wait_page_is_display(player, constant, game_page_time_out, instructio
     wait_duration = time.time() - player.participant.vars['going_to_wait_page']
     if others:
         other = others[0]
-        if wait_duration > (game_page_time_out + instruction_page_time_out) + 1:
-            other.participant.is_dropout = True
+        # if wait_duration > (game_page_time_out + instruction_page_time_out) + 1:
+        #     other.participant.is_dropout = True
         
         if other.participant.is_dropout == True:
             set_payoffs(player.group, constant)

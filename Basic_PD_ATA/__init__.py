@@ -77,19 +77,19 @@ class Instructions(Page):
             prolific_id = get_prolific_id(player),
         )
 
-    @staticmethod
-    def get_timeout_seconds(player):
-        if player.participant.is_dropout:
-            return 1  # instant timeout, 1 second
-        else:
-            return get_instruction_page_time_out_in_sec(CONFIG_PATH)
+    # @staticmethod
+    # def get_timeout_seconds(player):
+    #     if player.participant.is_dropout:
+    #         return 1  # instant timeout, 1 second
+    #     else:
+    #         return get_instruction_page_time_out_in_sec(CONFIG_PATH)
     
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
 
-        if timeout_happened:
-            participant.is_dropout = True
+        # if timeout_happened:
+        #     participant.is_dropout = True
 
 class ChoicePage(Page):
     form_model = 'player'
@@ -210,7 +210,8 @@ class Results(Page):
             total_me_payoff = total_me_payoff,
             total_other_payoff = total_other_payoff,
             show_other_participant_info = show_other_participant_info,
-            prolific_url = self.session.config['prolific_completion_url']
+            prolific_url = self.session.config['prolific_completion_url'],
+            prolific_id = Player.prolific_id
         )
 
     @staticmethod
