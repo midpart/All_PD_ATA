@@ -9,5 +9,6 @@
     "first_row_width_percentage": 46,
     "show_other_participant_info" : false,
     "instruction_page_time_out_in_sec": 300,
-    "game_page_time_out_in_sec": 60
+    "game_page_time_out_in_sec": 60,
+    "bot_time_delay": 5
 }

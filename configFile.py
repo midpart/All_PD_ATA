@@ -73,6 +73,14 @@ def get_game_page_time_out_in_sec(path):
     except Exception as e:
         print(f"Error reading config.json: {e}")
         return {}    
+    
+def get_bot_time_delay(path):
+    try:
+        config = get_config(path)
+        return int(config.get("bot_time_delay", 5))
+    except Exception as e:
+        print(f"Error reading config.json: {e}")
+        return {}
 
 def other_player(player):
     return player.get_others_in_group()[0]

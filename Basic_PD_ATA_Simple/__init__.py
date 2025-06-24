@@ -83,8 +83,19 @@ class ChoicePage(Page):
 
     @staticmethod
     def get_timeout_seconds(player):
+        group = player.group
+        current_page = player.participant._current_page_name
+
+        all_here = all(
+            p.participant._current_page_name == current_page
+            for p in player.group.get_players()
+        )
+
+        if not all_here:
+            return None  # No timeout yet
+
         if player.participant.is_dropout:
-            return 1  # instant timeout, 1 second
+            return get_bot_time_delay(CONFIG_PATH)
         else:
             return get_game_page_time_out_in_sec(CONFIG_PATH)
 
@@ -136,9 +147,9 @@ class ChoicePage(Page):
         set_end_time(player)
 
 class ChoiceWaitPage(WaitPage):
-    @staticmethod
-    def is_displayed(player: Player):
-        return choice_wait_page_is_display(player, C, get_game_page_time_out_in_sec(CONFIG_PATH), get_instruction_page_time_out_in_sec(CONFIG_PATH))
+    # @staticmethod
+    # def is_displayed(player: Player):
+    #     return choice_wait_page_is_display(player, C, get_game_page_time_out_in_sec(CONFIG_PATH), get_instruction_page_time_out_in_sec(CONFIG_PATH))
 
     @staticmethod
     def after_all_players_arrive(group: Group):
