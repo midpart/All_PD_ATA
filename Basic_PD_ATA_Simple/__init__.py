@@ -77,22 +77,28 @@ class Instructions(Page):
         # if timeout_happened:
         #     participant.is_dropout = True
 
+class WaitForGamePage(WaitPage):
+    body_text = "Waiting for other players to join the game..."
+    @staticmethod
+    def after_all_players_arrive(group: Group):
+        return True       
+
 class ChoicePage(Page):
     form_model = 'player'
     form_fields = ['your_choice']
 
     @staticmethod
     def get_timeout_seconds(player):
-        group = player.group
-        current_page = player.participant._current_page_name
+        # group = player.group
+        # current_page = player.participant._current_page_name
 
-        all_here = all(
-            p.participant._current_page_name == current_page
-            for p in player.group.get_players()
-        )
+        # all_here = all(
+        #     p.participant._current_page_name == current_page
+        #     for p in player.group.get_players()
+        # )
 
-        if not all_here:
-            return None  # No timeout yet
+        # if not all_here:
+        #     return None  # No timeout yet
 
         if player.participant.is_dropout:
             return get_bot_time_delay(CONFIG_PATH)
@@ -199,4 +205,4 @@ class Results(Page):
         # if player.whatever:
         #     return upcoming_apps[-1]
 
-page_sequence = [Instructions, ChoicePage, ChoiceWaitPage, ResultsWaitPage, Results]
+page_sequence = [Instructions, WaitForGamePage, ChoicePage, ChoiceWaitPage, ResultsWaitPage, Results]
