@@ -1,14 +1,11 @@
 {
     "round_number": 10,
     "payoff_matrix": {
-        "A_A": [0.5, 0.5],
-        "A_B": [0, 1],
-        "B_A": [1, 0],
-        "B_B": [0.25, 0.25]
+        "A_A": [1, 1],
+        "A_B": [0, 0.5],
+        "B_A": [0.5, 0],
+        "B_B": [0.5, 0.5]
     },
-    "your_choice_order": 2,
-    "other_choice_order": 3,
-    "expectation_of_rounds": 1,
     "first_row_width_percentage": 46,
     "show_other_participant_info" : false,
     "instruction_page_time_out_in_sec": 300,

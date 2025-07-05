@@ -1,0 +1,29 @@
+{% block app_styles %}
+
+    <style>
+        .text-right {
+            text-align: right;
+        }
+        .error {
+            border: 2px solid red;
+            background-color: #ffcccc;
+        }
+    </style>
+
+
+{% endblock %}
+<table class="table table-striped choiceTable">
+    <tr>
+        <td style="width: {{ first_row_percentage }}%; text-align: right;">Round</td>
+        
+        {% for i in round_list %}
+            <td class="text-center"> <div class="circle {% if forloop.counter ==  player.round_number %}CurrentRound {% elif forloop.counter <  player.round_number %}PastRound{% endif %}" {% if forloop.counter ==  player.round_number %}data-bg="active" {% elif forloop.counter <  player.round_number %}data-bg="done"{% endif %}><strong>{{  forloop.counter }}</strong></div></td>
+        {% endfor %}
+    </tr>
+    {% include 'Basic_PD_ATA_Simple/_YourChoice.html' %}
+    <tr>
+        <td></td>
+        <td colspan="{{ C.NUM_ROUNDS }}" class="text-center"><button class="btn btn-secondary" style="width: 100%;" type="submit" id="round_submit" disabled>-Click here to submit your choice for this round-</button></td>
+    </tr>
+    {% include 'Basic_SH_Simple/_RoundHistory.html' %}
+</table>

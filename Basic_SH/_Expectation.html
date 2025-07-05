@@ -1,0 +1,71 @@
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: left;">Please answer the following questions regarding your expectations in this round:&nbsp;&nbsp;&nbsp;</td>
+    <td colspan="{{ C.NUM_ROUNDS }}">&nbsp;</td>
+</tr>
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">If I choose A and the other person choose C, I earn&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_AC_me_{{ i }}" data-id="choice_AC_me" type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">and the other person earns&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_AC_other_{{ i }}" data-id="choice_AC_other" type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+
+ <tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">If I choose A and the other person choose D, I earn&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_AD_me_{{ i }}" data-id="choice_AD_me" type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">and the other person earns&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_AD_other_{{ i }}" data-id="choice_AD_other" type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">If I choose B and the other person choose C, I earn&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_BC_me_{{ i }}" data-id="choice_BC_me" type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">and the other person earns&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_BC_other_{{ i }}" data-id="choice_BC_other" type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">If I choose B and the other person choose D, I earn&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_BD_me_{{ i }}" data-id="choice_BD_me"  type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>
+<tr>
+    <td style="width: {{ first_row_percentage }}%; text-align: right;">and the other person earns&nbsp;&nbsp;&nbsp;</td>
+    {% for i in round_list %}
+        <td class="text-center">
+            <input class="text-box-width form-control extra" id="choice_BD_other_{{ i }}" data-id="choice_BD_other" type="number" min="0" max="100" maxlength="3" value="" disabled >
+        </td>
+    {% endfor %}
+</tr>

@@ -1,0 +1,77 @@
+{% block app_styles %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
+{% endblock %}
+
+{{ block title }}
+<h4>Task Instructions</h4>
+{{ endblock }}
+{{ block content }}
+<p>In this experiment you and another participant are facing the screen below. </p>
+{% include 'Basic_SH/_ChoiceTable.html' %}
+
+<div>Your task is to make ten choices over ten rounds. Your choice can either be A or B; the other participant’s choice
+    can either be C or D. What you choose is entirely up to you, but you have to make a choice, and the other
+    participant has to make a choice, so the experiment can determine your and the other participant’s payoff.</div>
+<div class="text-center" style="margin-top: 20px; margin-bottom: 20px;">
+    <table class="table table-bordered" style="width: 70%;margin: auto;">
+        <thead>
+        <tr class="text-center">
+            <td rowspan="2" colspan="2">&nbsp;</td>
+            <td colspan="2">Other’s choice</td>
+        </tr>
+        <tr class="text-center">
+            <td><strong>C</strong></td>
+            <td><strong>D</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td rowspan="2">Your choice</td>
+            <td><strong>A</strong></td>
+            <td>Your payoff <strong>\</strong> Other’s Payoff</td>
+            <td>Your payoff <strong>\</strong> Other’s Payoff</td>
+        </tr>
+        <tr>
+            <td><strong>B</strong></td>
+            <td>Your payoff <strong>\</strong> Other’s Payoff</td>
+            <td>Your payoff <strong>\</strong> Other’s Payoff</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <p>After making your choice, you also need to make guesses before you can continue with the next round:</p>
+    <ol>
+        <li>What is the other participant’s choice in this round? (please enter a capitalized C or D)</li>
+        <li>Given the other participant’s and your own choice, what is the other participant’s payoff and your own in
+            this round? (payoffs can have values between 0 and 100; please enter 8 integer values)
+        </li>
+    </ol>
+</div>
+<div style="margin-top: 40px;">
+    <p>After you made your choices and guesses, click on the submit button. Your payoff in this round and your total income (accumulated outcomes in all rounds that you have completed so far) are displayed. You will neither receive information concerning the other participant’s payoff in this round, nor the other participant’s total income.</p>
+    <p>In each round, your payoffs are determined by the combination of your choice (A or B) and the other participant’s choice (C or D). The payoffs represent points with 100 points being 0.2£. At the end of the experiment, you will receive the accumulated payoff that you earned over the {{ C.NUM_ROUNDS }} rounds, plus your show-up fee.</p>
+    <p>It is important to note that your payoffs are NOT affected by your guesses regarding the other participant’s actions or payoffs. So, whether your guesses about the other participant are correct or incorrect has no effect on your payoffs. Also, the other participant’s guesses do not affect your payoffs.</p>
+    <p>All rounds and sessions need to be completed consecutively and there is no possibility to go back. Once you have completed a session ({{ C.NUM_ROUNDS }} rounds) a window will come up and you can return to Prolific.</p>
+</div>
+<p>Your Prolific ID: <strong>{{ prolific_id }}</strong></p>
+
+<input type="hidden" name="prolific_id" value="{{ prolific_id }}">
+
+<div class="form-check mt-3">
+    <input class="form-check-input" type="checkbox" id="agreeCheckbox">
+    <label class="form-check-label" for="agreeCheckbox">
+        I agree to participate in this study.
+    </label>
+</div>
+
+<div class="mt-3">
+    <button id="nextBtn" class="btn btn-primary" type="submit" disabled>Next</button>
+</div>
+<script>
+        document.getElementById("agreeCheckbox").addEventListener("change", function() {
+            document.getElementById("nextBtn").disabled = !this.checked;
+        });
+    </script>
+{{ endblock }}

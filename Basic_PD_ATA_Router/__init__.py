@@ -9,13 +9,16 @@ class C(BaseConstants):
     NAME_IN_URL = 'Basic_PD_ATA_Router'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    TIMEOUT_IN_SECONDS = 60*5
+    TIMEOUT_IN_SECONDS = 300
 
 
 def creating_session(subsession):
     session = subsession.session
     session.vars['basic_pd_ata_simple'] = 0
     session.vars['basic_pd_ata'] = 0
+    session.vars['basic_sh'] = 0
+    session.vars['basic_sh_simple'] = 0
+    session.vars['total'] = 0
 
 class Subsession(BaseSubsession):
 
@@ -100,14 +103,28 @@ class Redirect(Page):
         session = player.session
         ata_simple  = session.vars.get('basic_pd_ata_simple', 0)
         ata_regular  = session.vars.get('basic_pd_ata', 0)
+        sh_simple  = session.vars.get('basic_sh_simple', 0)
+        sh_regular  = session.vars.get('basic_sh', 0)
+        total  = session.vars.get('total', 0)
         player.participant.vars['prolific_id'] = player.prolific_id
-        print(player.prolific_id)
-        if (ata_simple%2==0 and ata_regular%2==0 and ata_regular == ata_simple) or (ata_simple%2!=0):
+        
+        if(total == 0 or ata_simple %2 != 0 or (ata_simple == ata_regular and ata_simple == sh_simple and ata_simple == sh_regular)):
             assigned_app = 'Basic_PD_ATA_Simple'
             session.vars['basic_pd_ata_simple'] = ata_simple + 1
-        else:
+            session.vars['total'] = total + 1
+        elif(ata_regular == 0 or ata_regular%2 != 0 or (ata_regular == sh_simple and ata_regular == sh_regular)):
             assigned_app = 'Basic_PD_ATA'
             session.vars['basic_pd_ata'] = ata_regular + 1
+            session.vars['total'] = total + 1
+        elif(sh_simple == 0 or sh_simple%2 != 0 or sh_simple == sh_regular):
+            assigned_app = 'Basic_SH_Simple'
+            session.vars['basic_sh_simple'] = sh_simple + 1
+            session.vars['total'] = total + 1
+        else:
+            assigned_app = 'Basic_SH'
+            session.vars['basic_sh'] = sh_regular + 1
+            session.vars['total'] = total + 1
+
         player.participant.vars['which_app'] = assigned_app
         return assigned_app
 
