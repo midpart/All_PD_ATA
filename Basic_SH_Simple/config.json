@@ -1,10 +1,10 @@
 {
     "round_number": 10,
     "payoff_matrix": {
-        "A_A": [1, 1],
-        "A_B": [0, 0.5],
-        "B_A": [0.5, 0],
-        "B_B": [0.5, 0.5]
+        "A_A": [100, 100],
+        "A_B": [0, 50],
+        "B_A": [50, 0],
+        "B_B": [50, 50]
     },
     "first_row_width_percentage": 46,
     "show_other_participant_info" : false,

@@ -44,6 +44,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     prolific_id = models.StringField(label="Please indicate your prolific ID", initial="")
+    assigned_game = models.StringField(initial="")
     start_time = models.FloatField(initial=0)
     end_time = models.FloatField(initial=0)
     duration = models.FloatField(initial=0)
@@ -126,6 +127,7 @@ class Redirect(Page):
             session.vars['total'] = total + 1
 
         player.participant.vars['which_app'] = assigned_app
+        player.assigned_game = assigned_app
         return assigned_app
 
 class Timeout(Page):

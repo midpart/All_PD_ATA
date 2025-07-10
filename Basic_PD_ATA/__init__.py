@@ -52,11 +52,13 @@ class Player(BasePlayer):
     duration = models.FloatField(initial=0)
     prolific_id = models.StringField(label="Please indicate your prolific ID", initial="")
     is_dropout = models.BooleanField(initial=False)
+    assigned_game = models.StringField(initial="")
 
 # PAGES
 class Instructions(Page):
     @staticmethod
     def is_displayed(player):
+        player.assigned_game = C.NAME_IN_URL
         return player.round_number == 1  # Only show for the first round
     
     @staticmethod
