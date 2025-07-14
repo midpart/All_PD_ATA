@@ -1,0 +1,31 @@
+{% extends "global/Page.html" %}
+{% block app_styles %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
+{% endblock %}
+
+{{ block title }}
+<h4>Comprehension Test</h4>
+{{ endblock }}
+{{ block content }}
+<p>Basic questions for all games:</p>
+<form method="post">
+    {% for i in question_list %}
+        <p><strong>Q{{ i.Serial }}: {{ i.Text }}</strong></p> 
+        <label><input type="radio" name="question_{{ i.Serial }}" value="A"> {{ i.OptionA }}</label><br>
+        <label><input type="radio" name="question_{{ i.Serial }}" value="B"> {{ i.OptionB }}</label><br>
+        <label><input type="radio" name="question_{{ i.Serial }}" value="C"> {{ i.OptionC }}</label><br>
+        <div style="color: red;">{{ formfield_errors i.field_name }}</div>
+        <hr>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-outline-success">Submit</button>
+</form>
+
+<script>
+    $(document).ready(() => {
+        
+    })
+
+</script>
+{{ endblock }}

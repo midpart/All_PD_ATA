@@ -13,5 +13,6 @@
     "show_other_participant_info" : false,
     "instruction_page_time_out_in_sec": 300,
     "game_page_time_out_in_sec": 240,
-    "bot_time_delay": 5
+    "bot_time_delay": 5,
+    "number_of_questions": 5
 }

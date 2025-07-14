@@ -1,0 +1,31 @@
+{
+    "question_1": "How many rounds will you play in this experiment?",
+    "question_1_A": "1 round",
+    "question_1_B": "10 rounds",
+    "question_1_C": "100 rounds",
+    "question_1_answer": "B",
+
+    "question_2": "Will you be able to see the other participant's total income?",
+    "question_2_A": "Yes",
+    "question_2_B": "No",
+    "question_2_C": "Only after the experiment",
+    "question_2_answer": "B",
+
+    "question_3": "What determines your payoff in each round?",
+    "question_3_A": "Only your own choice",
+    "question_3_B": "A random number generator",
+    "question_3_C": "The combination of your and the other participant's choices",
+    "question_3_answer": "C",
+
+    "question_4": "What do you need to do after making your choice in each round, before continuing?",
+    "question_4_A": "Explain your reasoning in a comment box",
+    "question_4_B": "Guess the other participant's choice and state all 8 values in the payoff table based on your and the other participant's choice",
+    "question_4_C": "Wait for the other participant to confirm their choice",
+    "question_4_answer": "B",
+
+    "question_5": "What type of values should you enter when guessing the payoffs?",
+    "question_5_A": "Decimal numbers between 0 and 1",
+    "question_5_B": "Currency in pounds",
+    "question_5_C": "Integers between 0 and 100",
+    "question_5_answer": "C"
+}

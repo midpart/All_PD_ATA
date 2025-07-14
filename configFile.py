@@ -2,6 +2,7 @@ import json
 import time
 from datetime import datetime
 import random
+from Question import *
 
 def get_config(path):
     try:
@@ -81,6 +82,56 @@ def get_bot_time_delay(path):
     except Exception as e:
         print(f"Error reading config.json: {e}")
         return {}
+    
+def get_number_of_questions(path):
+    try:
+        config = get_config(path)
+        return int(config.get("number_of_questions", 3))
+    except Exception as e:
+        print(f"Error reading config.json: {e}")
+        return {}
+    
+def get_question_text(path, questionNumber):
+    try:
+        config = get_config(path)
+        return config.get(f"question_{questionNumber}", "")
+    except Exception as e:
+        print(f"Error reading questions.json: {e}")
+        return {}
+
+def get_question_option(path, questionNumber, questionOption):
+    try:
+        config = get_config(path)
+        return config.get(f"question_{questionNumber}_{questionOption}", "")
+    except Exception as e:
+        print(f"Error reading questions.json: {e}")
+        return {}
+
+def get_question_answer(path, questionNumber):
+    try:
+        config = get_config(path)
+        return config.get(f"question_{questionNumber}_answer", "")
+    except Exception as e:
+        print(f"Error reading questions.json: {e}")
+        return {}
+    
+def get_question_object(path, questionNumber):
+    try:
+        question_list = []
+        for i in range(1, questionNumber + 1):
+            text = get_question_text(path, i)
+            option_a= get_question_option(path, i, "A")
+            option_b= get_question_option(path, i, "B")
+            option_c= get_question_option(path, i, "C")
+            temp_question = QuestionInfo(i, text, option_a, option_b, option_c)
+            question_list.append(temp_question)
+
+
+        return question_list
+    except Exception as e:
+        print(f"Error reading question: {e}")
+        return {}    
+
 
 def other_player(player):
     return player.get_others_in_group()[0]
@@ -155,3 +206,21 @@ def set_payoffs(group, constant):
 def validate_prolific_id(prolific_id):
     if prolific_id is None or len(prolific_id) != 24:
         return f"Prolific ID must be 24 characters long"
+    
+
+def validate_question(player, config_Path, question_path, values):
+    number_of_question = get_number_of_questions(config_Path)
+    errors = {}
+    for i in range(1, number_of_question + 1):
+        answer = get_question_answer(question_path, i)
+        from_answer = values.get(f'question_{i}')
+        field_name = f'question_{i}'
+        if from_answer not in ["A", "B", "C"]:
+            errors[field_name] = "Please select value between A or B or C"
+        elif from_answer  != answer:
+            errors[field_name] = "Your answer is wrong, please select correct answer."
+    
+    if errors:
+        return errors
+
+    return None            

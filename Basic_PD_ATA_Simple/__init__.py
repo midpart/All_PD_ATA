@@ -6,8 +6,10 @@ import time
 from datetime import datetime
 
 # Construct the absolute path to the config file
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Gets the directory of models.py
-CONFIG_PATH = os.path.join(BASE_DIR, 'config.json')  # Moves up one level to project folder
+BASE_DIR_APP = os.path.dirname(os.path.abspath(__file__))  # Gets the directory of models.py
+BASE_DIR = os.path.dirname(BASE_DIR_APP)
+CONFIG_PATH = os.path.join(BASE_DIR_APP, 'config.json')  # Moves up one level to project folder
+QUESTION_FILE_PATH = os.path.join(BASE_DIR, 'questions.json')
 
 doc = """
 Your app description
@@ -44,6 +46,9 @@ class Player(BasePlayer):
     prolific_id = models.StringField(label="Please indicate your prolific ID", initial="")
     is_dropout = models.BooleanField(initial=False)
     assigned_game = models.StringField(initial="")
+    question_1 = models.StringField(choices=['A', 'B', 'C'], widget=widgets.RadioSelect)
+    question_2 = models.StringField(choices=['A', 'B', 'C'], widget=widgets.RadioSelect)
+    question_3 = models.StringField(choices=['A', 'B', 'C'], widget=widgets.RadioSelect)
 
 # PAGES
 class Instructions(Page):
@@ -78,6 +83,34 @@ class Instructions(Page):
 
         # if timeout_happened:
         #     participant.is_dropout = True
+
+class ComprehensionTest(Page):
+    form_model = 'player'
+    field_array = []
+    number_of_question = get_number_of_questions(CONFIG_PATH)
+    for i in range(1, number_of_question + 1):
+        field_array.append(f'question_{i}')
+    form_fields = field_array
+    @staticmethod
+    def is_displayed(player):
+        player.assigned_game = C.NAME_IN_URL
+        return player.round_number == 1  # Only show for the first round
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        number_of_question = get_number_of_questions(CONFIG_PATH)
+        question_list = get_question_object(QUESTION_FILE_PATH, number_of_question)
+        for q in question_list:
+            q.field_name = f"question_{q.Serial}"
+                
+        return dict(
+            number_of_question = number_of_question,
+            prolific_id = get_prolific_id(player),
+            question_list = question_list
+        )
+    
+    def error_message(player, values):
+        return validate_question(player, CONFIG_PATH, QUESTION_FILE_PATH, values)
 
 class WaitForGamePage(WaitPage):
     body_text = "Waiting for other players to join the game..."
@@ -207,4 +240,4 @@ class Results(Page):
         # if player.whatever:
         #     return upcoming_apps[-1]
 
-page_sequence = [Instructions, WaitForGamePage, ChoicePage, ChoiceWaitPage, ResultsWaitPage, Results]
+page_sequence = [Instructions, ComprehensionTest, WaitForGamePage, ChoicePage, ChoiceWaitPage, ResultsWaitPage, Results]
