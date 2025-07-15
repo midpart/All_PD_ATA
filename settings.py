@@ -14,13 +14,13 @@ SESSION_CONFIGS = [
         # room = 'Basic_PD_ATA_Router',
         prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=C1K54SMD',
     ),
-     dict(
-        name='Basic_PD_ATA',
-        display_name = 'Basic PD ATA',
-        app_sequence=['Basic_PD_ATA'],
-        num_demo_participants=2,
-        prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=123ABC45',
-    ),
+    #  dict(
+    #     name='Basic_PD_ATA',
+    #     display_name = 'Basic PD ATA',
+    #     app_sequence=['Basic_PD_ATA'],
+    #     num_demo_participants=2,
+    #     prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=123ABC45',
+    # ),
     #  dict(
     #     name='Basic_PD_ATA_Simple',
     #     display_name = 'Basic PD ATA Simple',
