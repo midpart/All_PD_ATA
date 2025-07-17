@@ -119,11 +119,25 @@ class ComprehensionTest(Page):
         question_list = get_question_object(QUESTION_FILE_PATH, number_of_question)
         for q in question_list:
             q.field_name = f"question_{q.Serial}"
-                
+
+        your_choice_order, other_choice_order, expectation_of_rounds = get_selection_order(CONFIG_PATH)
+        first_row_percentage = get_first_row_percentage(CONFIG_PATH)
+        round_list = list(range(0, C.NUM_ROUNDS))
+        show_other_participant_info = get_show_other_participant_info(CONFIG_PATH)
+
         return dict(
             number_of_question = number_of_question,
             prolific_id = get_prolific_id(player),
-            question_list = question_list
+            question_list = question_list,
+
+            order_list = list(range(0, 3)),
+            round_list = round_list,
+            courrent_round = 0,
+            your_choice_order = your_choice_order,
+            other_choice_order = other_choice_order,
+            expectation_of_rounds = expectation_of_rounds,
+            first_row_percentage = first_row_percentage,
+            show_other_participant_info = show_other_participant_info,
         )
     
     def error_message(player, values):

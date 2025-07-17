@@ -1,0 +1,10 @@
+<p>In this experiment you and another participant are facing the screen below. </p>
+{% include 'Basic_SH_Simple/_ChoiceTable.html' %}
+
+<div>Your task is to make ten choices over ten rounds. Your choice can either be A or B; the other participant’s choice can either be C or D. What you choose is entirely up to you, but you have to make a choice, and the other participant has to make a choice, so the experiment can determine your and the other participant’s payoff.</div>
+
+<div style="margin-top: 40px;">
+    <p>After you made your choices, click on the submit button. Your payoff in this round and your total income (accumulated outcomes in all rounds that you have completed so far) are displayed. You will neither receive information concerning the other participant’s payoff in this round, nor the other participant’s total income.</p>
+    <p>In each round, your payoffs are determined by the combination of your choice (A or B) and the other participant’s choice (C or D). The payoffs represent points with 100 points being 0.2£. At the end of the experiment, you will receive the accumulated payoff that you earned over the {{ C.NUM_ROUNDS }} rounds, plus your show-up fee.</p>
+    <p>All rounds and sessions need to be completed consecutively and there is no possibility to go back. Once you have completed a session ({{ C.NUM_ROUNDS }} rounds), a summary window will come up and you can return to Prolific.</p>
+</div>

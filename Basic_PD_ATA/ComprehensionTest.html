@@ -1,1 +1,30 @@
+{% extends "global/Page.html" %}
+{% block app_styles %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
+{% endblock %}
+
+{{ block title }}
+<h4>Comprehension Test</h4>
+{{ endblock }}
+{{ block content }}
 {% extends "global/ComprehensionTest.html" %}
+<br/><br/>
+<button id="toggleBtn" type="button" class="btn btn-outline-info">Show Instruction Page again</button>
+<div id="Instruction_overview" style="display: none;">
+    {% include 'Basic_PD_ATA/_InstructionText.html' %}
+</div>
+<script>
+    $(document).ready(() => {
+        $('#toggleBtn').click(function() {
+            if ($('#Instruction_overview').is(':visible')) {
+                $('#toggleBtn').text('Show Instruction Page again');
+            } else {
+                $('#toggleBtn').text('Hide Instruction Page');
+            }
+            $('#Instruction_overview').toggle();
+        });
+    })
+
+</script>
+{{ endblock }}
