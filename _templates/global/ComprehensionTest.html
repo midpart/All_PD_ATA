@@ -1,0 +1,41 @@
+{% extends "global/Page.html" %}
+{% block app_styles %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/empty.css' %}">
+{% endblock %}
+
+{{ block title }}
+<h4>Comprehension Test</h4>
+{{ endblock }}
+{{ block content }}
+<p>Basic questions about the game:</p>
+<form method="post">
+    {% for i in question_list %}
+        <p><strong>Q{{ i.Serial }}: {{ i.Text }}</strong></p> 
+        {% if i.Serial == 1 %}
+            {{ form.question_1 }}
+        {% elif i.Serial == 2 %}
+            {{ form.question_2 }}
+        {% elif i.Serial == 3 %}
+            {{ form.question_3 }}
+        {% elif i.Serial == 4 %}
+            {{ form.question_4 }}
+        {% elif i.Serial == 5 %}
+            {{ form.question_5 }}
+        {% else %}
+            <span>No Opetions</span>
+        {% endif %}
+        <div style="color: red;">{{ formfield_errors i.field_name }}</div>
+        <hr>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-outline-success">Submit</button>
+</form>
+
+<script>
+    $(document).ready(() => {
+        
+    })
+
+</script>
+{{ endblock }}

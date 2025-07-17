@@ -28,6 +28,20 @@ SESSION_CONFIGS = [
     #     num_demo_participants=2,
     #     prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=123ABC45',
     # ),
+    #  dict(
+    #     name='Basic_SH',
+    #     display_name = 'Basic SH',
+    #     app_sequence=['Basic_SH'],
+    #     num_demo_participants=2,
+    #     prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=123ABC45',
+    # ),
+    #  dict(
+    #     name='Basic_SH_Simple',
+    #     display_name = 'Basic SH Simple',
+    #     app_sequence=['Basic_SH_Simple'],
+    #     num_demo_participants=2,
+    #     prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=123ABC45',
+    # ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

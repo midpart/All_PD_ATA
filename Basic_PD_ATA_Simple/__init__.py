@@ -46,9 +46,9 @@ class Player(BasePlayer):
     prolific_id = models.StringField(label="Please indicate your prolific ID", initial="")
     is_dropout = models.BooleanField(initial=False)
     assigned_game = models.StringField(initial="")
-    question_1 = models.StringField(choices=['A', 'B', 'C'], widget=widgets.RadioSelect)
-    question_2 = models.StringField(choices=['A', 'B', 'C'], widget=widgets.RadioSelect)
-    question_3 = models.StringField(choices=['A', 'B', 'C'], widget=widgets.RadioSelect)
+    question_1 = models.StringField(choices= get_question_option_array(QUESTION_FILE_PATH, 1), widget=widgets.RadioSelect)
+    question_2 = models.StringField(choices= get_question_option_array(QUESTION_FILE_PATH, 2), widget=widgets.RadioSelect)
+    question_3 = models.StringField(choices= get_question_option_array(QUESTION_FILE_PATH, 3), widget=widgets.RadioSelect)
 
 # PAGES
 class Instructions(Page):

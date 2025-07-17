@@ -132,6 +132,15 @@ def get_question_object(path, questionNumber):
         print(f"Error reading question: {e}")
         return {}    
 
+def get_question_option_array(path, questionNumber):
+    try:
+        return [('A', get_question_option(path, questionNumber, "A")) 
+                , ('B', get_question_option(path, questionNumber, "B"))
+                , ('C', get_question_option(path, questionNumber, "C"))]
+    except Exception as e:
+        print(f"Error reading questions.json: {e}")
+        return {}
+
 
 def other_player(player):
     return player.get_others_in_group()[0]
