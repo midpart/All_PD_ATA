@@ -1,27 +1,17 @@
 from otree.api import *
 import time
-from configFile import validate_prolific_id
+from configFile import validate_prolific_id, return_app
 
 doc = """
 Route participant to either Basic or normal ATA PD experiment
 """
 class C(BaseConstants):
-    NAME_IN_URL = 'Basic_PD_ATA_Router'
+    NAME_IN_URL = 'router'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     TIMEOUT_IN_SECONDS = 300
 
-
-def creating_session(subsession):
-    session = subsession.session
-    session.vars['basic_pd_ata_simple'] = 0
-    session.vars['basic_pd_ata'] = 0
-    session.vars['basic_sh'] = 0
-    session.vars['basic_sh_simple'] = 0
-    session.vars['total'] = 0
-
 class Subsession(BaseSubsession):
-
     def group_by_arrival_time_method(subsession, waiting_players):
         if len(waiting_players) >= 2:
             return waiting_players[:2]
@@ -31,6 +21,13 @@ class Subsession(BaseSubsession):
                 player.timed_out = True  # mark player as timed out
                 return [player]
 
+    def creating_session(subsession):
+        session = subsession.session
+        session.vars['basic_pd_ata_simple'] = 0
+        session.vars['basic_pd_ata'] = 0
+        session.vars['basic_sh'] = 0
+        session.vars['basic_sh_simple'] = 0
+        session.vars['total'] = 0
 
 def waiting_too_long(player):
     arrival = player.participant.vars['start_time']
@@ -41,7 +38,6 @@ def waiting_too_long(player):
 class Group(BaseGroup):
     pass
 
-
 class Player(BasePlayer):
     prolific_id = models.StringField(label="Please indicate your prolific ID", initial="")
     assigned_game = models.StringField(initial="")
@@ -50,6 +46,7 @@ class Player(BasePlayer):
     duration = models.FloatField(initial=0)
     name = models.StringField(initial="")
     timed_out = models.BooleanField(initial=False)
+    redirect_app_time = models.FloatField(initial=0)
 
 # PAGES
 class RedirectWaitPage(WaitPage):
@@ -97,10 +94,6 @@ class Redirect(Page):
         player.duration = (player.end_time - player.start_time)
         del player.participant.vars['start_time']
 
-    @staticmethod
-    def app_after_this_page(player, upcoming_apps):
-        if player.timed_out:
-            return False
         session = player.session
         ata_simple  = session.vars.get('basic_pd_ata_simple', 0)
         ata_regular  = session.vars.get('basic_pd_ata', 0)
@@ -126,9 +119,47 @@ class Redirect(Page):
             session.vars['basic_sh'] = sh_regular + 1
             session.vars['total'] = total + 1
 
-        player.participant.vars['which_app'] = assigned_app
+        player.participant.vars['assigned_app'] = assigned_app
         player.assigned_game = assigned_app
-        return assigned_app
+        player.redirect_app_time = time.time()
+
+    @staticmethod
+    def app_after_this_page(player, upcoming_apps):
+        if player.timed_out:
+            return False
+        
+        # if player already assigned an app, then return to that app
+        return_app(player)
+
+        # session = player.session
+        # ata_simple  = session.vars.get('basic_pd_ata_simple', 0)
+        # ata_regular  = session.vars.get('basic_pd_ata', 0)
+        # sh_simple  = session.vars.get('basic_sh_simple', 0)
+        # sh_regular  = session.vars.get('basic_sh', 0)
+        # total  = session.vars.get('total', 0)
+        # player.participant.vars['prolific_id'] = player.prolific_id
+        
+        # if(total == 0 or ata_simple %2 != 0 or (ata_simple == ata_regular and ata_simple == sh_simple and ata_simple == sh_regular)):
+        #     assigned_app = 'Basic_PD_ATA_Simple'
+        #     session.vars['basic_pd_ata_simple'] = ata_simple + 1
+        #     session.vars['total'] = total + 1
+        # elif(ata_regular == 0 or ata_regular%2 != 0 or (ata_regular == sh_simple and ata_regular == sh_regular)):
+        #     assigned_app = 'Basic_PD_ATA'
+        #     session.vars['basic_pd_ata'] = ata_regular + 1
+        #     session.vars['total'] = total + 1
+        # elif(sh_simple == 0 or sh_simple%2 != 0 or sh_simple == sh_regular):
+        #     assigned_app = 'Basic_SH_Simple'
+        #     session.vars['basic_sh_simple'] = sh_simple + 1
+        #     session.vars['total'] = total + 1
+        # else:
+        #     assigned_app = 'Basic_SH'
+        #     session.vars['basic_sh'] = sh_regular + 1
+        #     session.vars['total'] = total + 1
+
+        # player.participant.vars['assigned_app'] = assigned_app
+        # player.assigned_game = assigned_app
+        # player.redirect_app_time = time.time()
+        #return assigned_app
 
 class Timeout(Page):
     @staticmethod

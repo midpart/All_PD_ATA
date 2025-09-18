@@ -233,3 +233,11 @@ def validate_question(player, config_Path, question_path, values):
         return errors
 
     return None            
+
+def get_assigned_app(player):
+    return player.participant.vars.get('assigned_app', None)
+
+def return_app(player):
+    assigned_app = get_assigned_app(player)
+    if assigned_app:
+        return assigned_app

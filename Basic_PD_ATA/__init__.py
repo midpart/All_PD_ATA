@@ -16,7 +16,8 @@ Basic PD ATA game
 """
     
 class C(BaseConstants):
-    NAME_IN_URL = 'Basic_PD_ATA'
+    NAME_IN_URL = 'pd'
+    APP_NAME = 'Basic_PD_ATA'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = get_rounds_from_config(CONFIG_PATH)
     payoff_matrix = get_payoff_matrix(CONFIG_PATH)
@@ -33,6 +34,7 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
+    app_arrived_time = models.FloatField(initial=0)
     your_choice = models.StringField(initial="")
     your_think_other_choice = models.StringField(initial="")
     me_payoff = models.IntegerField(initial=0)
@@ -65,7 +67,10 @@ class Player(BasePlayer):
 class Instructions(Page):
     @staticmethod
     def is_displayed(player):
-        player.assigned_game = C.NAME_IN_URL
+        #check player belong to this app
+        if get_assigned_app(player) != C.APP_NAME:
+            return False
+
         return player.round_number == 1  # Only show for the first round
     
     @staticmethod
@@ -96,6 +101,8 @@ class Instructions(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
+        player.app_arrived_time = time.time()
+        player.assigned_game = C.APP_NAME
 
         # if timeout_happened:
         #     participant.is_dropout = True
@@ -110,8 +117,12 @@ class ComprehensionTest(Page):
     
     @staticmethod
     def is_displayed(player):
-        player.assigned_game = C.NAME_IN_URL
-        return player.round_number == 1  # Only show for the first round
+        #check player belong to this app
+        if get_assigned_app(player) != C.APP_NAME:
+            return False
+        
+        # Only show for the first round
+        return player.round_number == 1  
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -145,6 +156,12 @@ class ComprehensionTest(Page):
 
 class WaitForGamePage(WaitPage):
     body_text = "Waiting for other players to join the game..."
+
+    @staticmethod
+    def is_displayed(player):
+        #check player belong to this app
+        return get_assigned_app(player) == C.APP_NAME
+
     @staticmethod
     def after_all_players_arrive(group: Group):
         return True  
@@ -153,6 +170,11 @@ class ChoicePage(Page):
     form_model = 'player'
     form_fields = ['your_choice', 'your_think_other_choice', 'choice_AC_me', 'choice_AC_other', 'choice_AD_me', 'choice_AD_other', 'choice_BC_me', 'choice_BC_other', 'choice_BD_me', 'choice_BD_other']
 
+    @staticmethod
+    def is_displayed(player):
+        #check player belong to this app
+        return get_assigned_app(player) == C.APP_NAME
+        
     @staticmethod
     def get_timeout_seconds(player):
 
@@ -173,7 +195,7 @@ class ChoicePage(Page):
             return get_game_page_time_out_in_sec(CONFIG_PATH)
 
     @staticmethod
-    def vars_for_template(player: Player):
+    def vars_for_template(player):
         if 'start_time' not in player.participant.vars:
             player.participant.vars['start_time'] = time.time()
         round_list = list(range(0, C.NUM_ROUNDS))
@@ -241,16 +263,29 @@ class ChoiceWaitPage(WaitPage):
     #     return choice_wait_page_is_display(player, C, get_game_page_time_out_in_sec(CONFIG_PATH), get_instruction_page_time_out_in_sec(CONFIG_PATH))
 
     @staticmethod
+    def is_displayed(player):
+        #check player belong to this app
+        return get_assigned_app(player) == C.APP_NAME
+        
+    @staticmethod
     def after_all_players_arrive(group: Group):
         set_payoffs(group, C)
 
 class ResultsWaitPage(WaitPage):
-    def is_displayed(Group):
-        return Group.round_number > C.NUM_ROUNDS  # Only in last round
+    def is_displayed(player):
+        #check player belong to this app
+        if get_assigned_app(player) != C.APP_NAME:
+            return False
+        
+        #return Group.round_number > C.NUM_ROUNDS  # Only in last round
+        return player.round_number == C.NUM_ROUNDS and len(player.group.get_players()) == C.PLAYERS_PER_GROUP
 
 class Results(Page):
     @staticmethod
     def is_displayed(player: Player):
+        #check player belong to this app
+        if get_assigned_app(player) != C.APP_NAME:
+            return False
         # Show this page only in the last round
         return player.round_number == C.NUM_ROUNDS
      
@@ -286,9 +321,9 @@ class Results(Page):
 
     @staticmethod
     def app_after_this_page(player, upcoming_apps):
-        print('upcoming_apps is', upcoming_apps)
-        return None
-        # if player.whatever:
-        #     return upcoming_apps[-1]
+        if get_assigned_app(player) == C.APP_NAME:
+            return None
+        else:
+            return get_assigned_app(player)
 
 page_sequence = [Instructions, ComprehensionTest, WaitForGamePage, ChoicePage, ChoiceWaitPage, ResultsWaitPage, Results]

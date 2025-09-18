@@ -9,9 +9,9 @@ SESSION_CONFIGS = [
      dict(
         name='Basic_PD_ATA_Router',
         display_name = 'Basic PD ATA Router',
-        app_sequence=['Basic_PD_ATA_Router',  'Basic_PD_ATA', 'Basic_PD_ATA_Simple', 'Basic_SH', 'Basic_SH_Simple'],
+        app_sequence=['Basic_PD_ATA_Router', 'Basic_PD_ATA', 'Basic_PD_ATA_Simple', 'Basic_SH', 'Basic_SH_Simple'],
         num_demo_participants=2,
-        # room = 'Basic_PD_ATA_Router',
+        room = 'Basic_PD_ATA_Router',
         prolific_completion_url = 'https://app.prolific.com/submissions/complete?cc=C1K54SMD',
     ),
     #  dict(
