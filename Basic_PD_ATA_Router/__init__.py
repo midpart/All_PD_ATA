@@ -66,6 +66,9 @@ class Redirect(Page):
 
     @staticmethod
     def is_displayed(player):
+        # Track start time when the page is first displayed
+        if 'start_time' not in player.participant.vars:
+            player.participant.vars['start_time'] = time.time()
         # return not player.timed_out
         return True
 
@@ -92,10 +95,6 @@ class Redirect(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        if not player.prolific_id.strip():
-            # Kick them back or redirect to timeout page
-            player.timed_out = True
-            return
         start_time = player.participant.vars['start_time']
         player.start_time = start_time
         player.end_time = time.time()
