@@ -39,7 +39,7 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
-    prolific_id = models.StringField(label="Please indicate your prolific ID", initial="")
+    prolific_id = models.StringField(label="Please indicate your prolific ID", initial="", blank=False)
     assigned_game = models.StringField(initial="")
     start_time = models.FloatField(initial=0)
     end_time = models.FloatField(initial=0)
@@ -77,6 +77,10 @@ class Redirect(Page):
     @staticmethod
     def error_message(player, values):
         prolific_id = (values['prolific_id']).strip()
+        
+        if not prolific_id:
+            return "You must enter a Prolific ID."
+        
         message = validate_prolific_id(prolific_id)
         if message is not None:
             return message
@@ -88,6 +92,10 @@ class Redirect(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
+        if not player.prolific_id.strip():
+            # Kick them back or redirect to timeout page
+            player.timed_out = True
+            return
         start_time = player.participant.vars['start_time']
         player.start_time = start_time
         player.end_time = time.time()

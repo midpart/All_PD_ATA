@@ -213,7 +213,7 @@ def set_payoffs(group, constant):
     player2.other_total_payoff = player1.me_total_payoff
 
 def validate_prolific_id(prolific_id):
-    if prolific_id is None or len(prolific_id) != 24:
+    if prolific_id is None or len(prolific_id.strip()) != 24:
         return f"Prolific ID must be 24 characters long"
     
 
