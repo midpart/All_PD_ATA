@@ -95,6 +95,11 @@ class Redirect(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
+        # Only run assignment if prolific_id is valid
+        prolific_id = player.prolific_id.strip()
+        if not prolific_id or validate_prolific_id(prolific_id):
+            # Prevent advancing if ID invalid
+            return
         start_time = player.participant.vars['start_time']
         player.start_time = start_time
         player.end_time = time.time()
